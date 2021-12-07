@@ -1,0 +1,53 @@
+<!--  наследуемся от шаблона default.html, который мы создавали ещё во времена flatpages -->
+{% extends 'default.html' %}
+{% load custom_filters %}
+<!-- Название у нас будет proudcts -->
+{% block title %}
+Статьи
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все товары -->
+{% block content %}
+<h1>Поиск</h1>
+<form method="GET">
+    {{ filter.form }}
+    <input type="submit" value="Найти">
+</form>
+<hr>
+{% if posts %}
+<table>
+    <tr>
+        <td>
+            Заголовок
+        </td>
+        <td>
+            Дата публикации
+        </td>
+        <td>
+            Статья
+        </td>
+    </tr>
+    {% for post in filter.qs %}
+    <tr>
+        <td>
+            <a href="{% url 'post_detail' post.id %}">{{ post.header|censor }}</a>
+            <a href="{% url 'post_update' post.id %}"><u>Редактировать</u></a>
+            <a href="{% url 'post_delete' post.id %}"><u> Удалить </u></a>
+        </td>
+        <td>
+            {{ post.date|date:'d.m.Y' }}
+        </td>
+        <td>
+            {{ post.text|truncatechars:50|censor}}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<h2>Статьи отсутствуют!</h2>
+{% endif %}
+
+<a href="{% url 'post_create' %}">Добавить новую статью</a> <br>
+
+
+{% endblock content %}

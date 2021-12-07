@@ -1,0 +1,19 @@
+<!--  наследуемся от шаблона default.html, который мы создавали ещё во времена flatpages -->
+{% extends 'default.html' %}
+{% load custom_filters %}
+<!-- Название у нас будет proudcts -->
+{% block title %}
+Post
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим сам товар, ID которого было передано в адрес -->
+{% block content %}
+<h1>{{ post.header|censor }}</h1>
+<hr>
+<h3>
+    {{ post.date|date:'d-m-Y G:i' }}
+</h3>
+<h5>
+    {{ post.text|censor }}
+</h5>
+{% endblock content %}
